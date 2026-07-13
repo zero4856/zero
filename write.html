@@ -56,6 +56,25 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    try {
+  const { error: emailError } =
+    await ZERO_APP.client.functions.invoke(
+      "new-consultation-email",
+      {
+        body: {
+          consultation_no: row.consultation_no,
+          title: row.title,
+          category: row.category
+        }
+      }
+    );
+
+  if (emailError) {
+    console.error("이메일 알림 실패:", emailError);
+  }
+} catch (emailError) {
+  console.error("이메일 알림 호출 실패:", emailError);
+}
     const result = document.getElementById("result");
     result.style.display = "block";
     result.innerHTML = `<div class="meta">상담이 접수되었습니다.</div>
